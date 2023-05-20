@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uk">
+
+  <head>
+    <title>Статті</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../dest/images/favico.png" rel="icon">
+
+    <meta name="keywords" content="...">
+    <meta name="description" content="desc">
+    <meta name="author" content="YurSa">
+    <meta name="copyright" content="YurSa">
+    <meta name="adress" content="Uzhorod Ukraine">
+
+    <meta property="og:title" content="title">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="desc">
+
+    <link href="../dest/mincss/reset.min.css" rel="stylesheet">
+    <link href="../dest/mincss/article.min.css" rel="stylesheet">
+  </head>
+
+  <body class="body">
+    <!--Header-->
+    <header class="header">
+    </header>
+    <!--Header-->
+    <main class="main">
+      <section class="articles">
+        <div class="container">
+          <div class="article">
+            <header class="article__header">
+              <h1 class="article__name">Some name</h1>
+              <div class="artice__info">
+                <div class="article__author-info">
+                  <img class="author-image" src="../dest/images/default-background.webp" alt="author_image">
+                  <span class="article__author">author</span>
+                </div>
+                <div class="article__info-block">
+                  <span class="article__time">10.05.2023</span>
+                  <div class="views__info">
+                    <img src="../dest/images/eye.png" alt="views">
+                    <span class="article__views">0</span>
+                  </div>
+                </div>
+              </div>
+            </header>
+            <div class="article__body">
+              <div class="article__article">
+                <div class="article__text">
+                </div>
+                <div class="article__likes">
+                  <button class="article__likes-button">
+                    <img src="../dest/images/like.png" alt="like">
+                  </button>
+                  <span class="article__likes-count">12</span>
+                </div>
+                <div class="article__comments">
+                  <div class="article__my-comment-field">
+                    <form class="comment__form">
+                      <label class="comment__label" for="comment">Введіть ваш коментар</label>
+                      <textarea class="comment__content" id="comment"></textarea>
+                      <input class="comment__send" type="submit" value="Надіслати">
+                    </form>
+                  </div>
+                  <h4 class="comments__header">Всі кометарі</h4>
+                  <div class="article__all-comments">
+                  </div>
+                </div>
+              </div>
+              <div class="article__nav">
+                <h1 class="article__nav-header">
+                  Популярні пости
+                </h1>
+                <div class="article__nav-body">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"></footer>
+    <script type="module" src="../dest/js/loadParts.js"></script>
+    <script type="module" src="../dest/js/checkUser.js"></script>
+    <script type="module" src="../dest/js/article.js"></script>
+    <script type="module" src="../dest/js/app.js"></script>
+  </body>
+
+</html>

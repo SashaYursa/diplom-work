@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="uk">
+
+  <head>
+    <title>Artist Blog</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="dest/images/favico.png" rel="icon">
+
+    <meta name="keywords" content="...">
+    <meta name="description" content="desc">
+    <meta name="author" content="YurSa">
+    <meta name="copyright" content="YurSa">
+    <meta name="adress" content="Uzhorod Ukraine">
+
+    <meta property="og:title" content="title">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="desc">
+
+    <link href="dest/mincss/reset.min.css" rel="stylesheet">
+    <link href="dest/mincss/main.min.css" rel="stylesheet">
+
+  </head>
+
+  <body class="body">
+    <!--Header-->
+    <header class="header">
+      <img class="background-image" src="" alt="img">
+      <div class="header-inner">
+        <div class="container">
+          <div class="header__menu">
+            <div class="logo-wrapper">
+              <a class="menu__logo" href="/">Блог</a>
+            </div>
+            <div class="header__menu-items">
+              <nav class="menu__nav">
+                <ul class="menu__items">
+                  <li class="menu__item">
+                    <a class="menu__link" href="/">Головна</a>
+                  </li>
+                  <li class="menu__item">
+                    <a class="menu__link" href="/portfolio/">Роботи</a>
+                  </li>
+                  <li class="menu__item">
+                    <a class="menu__link" href="/articles/">Пости</a>
+                  </li>
+                  <li class="menu__item">
+                    <a class="menu__link" href="/about/">Про нас</a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="vertical-line items"></div>
+              <div class="menu__socials">
+                <ul class="social__items">
+                  <li class="social__item">
+                    <a class="social-link" href="https://www.facebook.com/groups/565010661504197/">
+                      <img class="social__image" src="dest/images/facebook-light.png" alt="social">
+                    </a>
+                  </li>
+                  <li class="social__item">
+                    <a class="social-link" href="#">
+                      <img class="social__image" src="dest/images/insta-light.png" alt="social">
+                    </a>
+                  </li>
+                  <li class="social__item">
+                    <a class="social-link" href="#">
+                      <img class="social__image" src="dest/images/twitter-light.png" alt="social">
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="vertical-line social"></div>
+              <div class="menu__search-bar">
+                <form class="menu__search-form">
+                  <input class="menu__search-input" type="search" required>
+                  <button class="menu__search-submit" type="submit" value=" "></button>
+                </form>
+              </div>
+              <div class="vertical-line user"></div>
+              <a class="menu__login-button menu__link" id="login" href="/login/"></a>
+            </div>
+            <div class="header__burger">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header__outer">
+        <div class="container">
+          <div class="header__content">
+            <h1 class="content__header text-header"></h1>
+            <p class="content__description">
+            </p>
+            <p class="content__date"></p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--Header-->
+    <main class="main">
+      <section class="topics">
+        <div class="container works__container">
+        </div>
+      </section>
+      <section class="articles">
+        <h2 class="articles__header text-header">Популярні пости</h2>
+        <div class="articles__container container">
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__items">
+          <div class="footer__page-links">
+            <h4 class="footer__page-links-header">Сторніки веб ресурсу</h4>
+            <ul>
+              <li><a class="footer__page-link active" href="/">Головна</a></li>
+              <li><a class="footer__page-link" href="/portfolio/">Роботи</a></li>
+              <li><a class="footer__page-link" href="/articles/">Пости</a></li>
+              <li><a class="footer__page-link" href="/about/">Про нас</a></li>
+            </ul>
+          </div>
+          <div class="footer__socials">
+            <h4 class="footer__socials-header">Посилання на автора</h4>
+            <ul class="footer__social-items">
+              <li class="footer__social-item">
+                <a class="footer__social-link social-link" href="https://www.facebook.com/groups/565010661504197/">
+                  Facebook
+                </a>
+                <img class="social__image" src="dest/images/facebook-light.png" alt="social">
+              </li>
+              <li class="footer__social-item">
+                <a class="footer__social-link social-link" href="#">
+                  Instagram
+                </a>
+                <img class="social__image" src="dest/images/insta-light.png" alt="social">
+              </li>
+              <li class="footer__social-item">
+                <a class="footer__social-link social-link" href="#">
+                  Twitter
+                </a>
+                <img class="social__image" src="dest/images/twitter-light.png" alt="social">
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__copy">
+        <h3 class="footer__copy-text">2023 Yursa</h3>
+      </div>
+    </footer>
+    <script type="module" src="dest/js/main.js" defer></script>
+    <script type="module" src="dest/js/app.js" defer></script>
+    <script type="module" src="dest/js/checkUser.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="uk">
+
+  <head>
+    <title>Статті</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../dest/images/favico.png" rel="icon">
+
+    <meta name="keywords" content="...">
+    <meta name="description" content="desc">
+    <meta name="author" content="YurSa">
+    <meta name="copyright" content="YurSa">
+    <meta name="adress" content="Uzhorod Ukraine">
+
+    <meta property="og:title" content="title">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="desc">
+
+    <link href="../dest/mincss/reset.min.css" rel="stylesheet">
+    <link href="../dest/mincss/articles.min.css" rel="stylesheet">
+  </head>
+
+  <body class="body">
+    <!--Header-->
+    <header class="header">
+    </header>
+    <!--Header-->
+    <main class="main">
+      <section class="articles">
+        <div class="container">
+          <div class="articles__items">
+            <h1 class="articles__header">Пости</h1>
+            <div class="articles__filter">
+              <div class="article__filter_items">
+                <ul class="filter__list">
+                  <li class="filter__item">
+                    <button class="filter__button active" id="new">
+                      Нові
+                    </button>
+                  </li>
+                  <li class="filter__item">
+                    <button class="filter__button" id="old">
+                      Старі
+                    </button>
+                  </li>
+                  <li class="filter__item">
+                    <button class="filter__button" id="likes">
+                      Лайки
+                    </button>
+                  </li>
+                  <li class="filter__item">
+                    <button class="filter__button" id="views">
+                      Перегляди
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div class="article__categories-items">
+                <select name="categories" class="article__categories" id="categories">
+                  <option value="all">Всі</option>
+                  <option value="Лайфхаки">Лайфхаки</option>
+                  <option value="all">Всі</option>
+                </select>
+              </div>
+            </div>
+            <div class="articles__list">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer"></footer>
+    <script type="module" src="../dest/js/loadParts.js"></script>
+    <script type="module" src="../dest/js/articles.js"></script>
+    <script type="module" src="../dest/js/checkUser.js"></script>
+    <script type="module" src="../dest/js/app.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="uk">
+
+  <head>
+    <title>Адмін панель</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../dest/images/favico.png" rel="icon">
+
+    <meta name="keywords" content="...">
+    <meta name="description" content="desc">
+    <meta name="author" content="YurSa">
+    <meta name="copyright" content="YurSa">
+    <meta name="adress" content="Uzhorod Ukraine">
+
+    <meta property="og:title" content="title">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="desc">
+
+    <link href="../dest/mincss/reset.min.css" rel="stylesheet">
+    <link href="../dest/mincss/admin.min.css" rel="stylesheet">
+  </head>
+
+  <body class="body">
+    <main class="main">
+      <div class="container">
+        <div class="sidebar">
+          <div class="sidebar__logo">
+            <a class="menu__logo" href="/">Блог</a>
+          </div>
+          <button class="sidebar__list-header-button" id="control">
+            <h3 class="sidebar__list-header">Управління</h3>
+          </button>
+          <div class="sidebar__list active">
+            <div class="sidebar__list-line"></div>
+            <ul class="sidebar__items">
+              <li class="sidebar__item">
+                <button class="sidebar__button" id="users">Користувачі</button>
+              </li>
+              <li class="sidebar__item">
+                <button class="sidebar__button" id="articles">Пости</button>
+              </li>
+              <li class="sidebar__item">
+                <button class="sidebar__button" id="works">Роботи</button>
+              </li>
+            </ul>
+          </div>
+          <button class="sidebar__list-header-button" id="categories">
+            <h3 class="sidebar__list-header">Категорії</h3>
+          </button>
+        </div>
+
+        <div class="content">
+          <div class="content__filter">
+          </div>
+          <div class="content__items">
+          </div>
+          <section class="pagination-section">
+            <div class="pagination">
+            </div>
+          </section>
+        </div>
+      </div>
+      <div id="modal-window" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.tiny.cloud/1/z7rcyy16jlatuscstv8telttc0pcmgputzfx4l79bu6lqyq6/tinymce/6/tinymce.min.js"
+      referrerpolicy="origin">
+      </script>
+    <script type="module" src="../dest/js/admin/admin.js" type="module"></script>
+    <!-- <script src="../dest/js/admin/users.js"></script> -->
+  </body>
+
+</html>
