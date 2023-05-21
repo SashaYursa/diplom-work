@@ -10,6 +10,7 @@ Router::page('/arts', 'arts');
 Router::page('/admin/users', 'Admin/users');
 Router::page('/admin/works', 'Admin/works');
 Router::page('/admin/articles', 'Admin/articles');
+Router::page('/admin/comments', 'Admin/comments');
 Router::page('/search', 'search');
 Router::page('/main', 'main');
 Router::page('/add-article', 'add-article');

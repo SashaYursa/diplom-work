@@ -371,6 +371,7 @@ body {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
+  object-fit: cover;
 }
 
 .article__author {
@@ -648,7 +649,37 @@ strong {
     display: none;
   }
   .article__article {
-    width: auto;
+    width: 100%;
+  }
+}
+@media (max-width: 710px) {
+  .article {
+    margin: 0 3px;
+    padding-inline: 0;
+  }
+  .comment__send {
+    width: 50%;
+  }
+  .comment__form {
+    margin: 0;
+  }
+  .article__header {
+    margin-left: 0px;
+  }
+  .article__likes-button {
+    width: 40px;
+    height: 40px;
+  }
+  .article__likes-button > img {
+    height: 100%;
+    width: 100%;
+  }
+  .article__likes-button:active > img {
+    width: 40px;
+    height: 40px;
+  }
+  .article__likes-count {
+    font-size: 20px;
   }
 }
 .footer {

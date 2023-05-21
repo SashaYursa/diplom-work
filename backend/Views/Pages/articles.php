@@ -48,6 +48,26 @@ if ($method === 'GET') {
             $articlesPack = $article->getPacketArticle(20, 0, 'views', 0);
             echo json_encode($articlesPack);
         }
+        if ($headers['status'] === 'get-count-pages') {
+            if (isset($_GET['itemsInPage']) and isset($_GET['catID'])) {
+                $items = $article->getVisiblePages($_GET['catID']);
+                $countPages = ceil(count($items) / $_GET['itemsInPage']);
+                $pages = [];
+                for ($i = 1; $i <= $countPages; $i++) {
+                    $offset = ($i - 1) * $_GET['itemsInPage'];
+                    $page = [];
+                    for ($j = 0; $j < $_GET['itemsInPage']; $j++) {
+                        if (isset($items[$j + $offset])) {
+                            $page[$j + $offset] = $items[$j + $offset];
+                        }
+                    }
+                    $pages[$i] = $page;
+                }
+                echo json_encode(['countPages' => $countPages, 'pages' => $pages]);;
+            } else {
+                echo json_encode(['error' => 'Кількість записів на сторінці не задано']);
+            }
+        }
         return;
     }
     if (isset($_GET['offset']) and isset($_GET['limit']) and isset($_GET['sortType']) and isset($_GET['categories'])) {

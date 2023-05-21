@@ -8,7 +8,6 @@ async function getTemplate(pageName, items, offset, userAccess) {
   let templateBody = document.createElement('tbody');
   if (pageName === 'users') {
     let users = setUsers(items, offset, userAccess, templateContainer, templateHeader, templateBody);
-
     templateContainer = users.conatainer;
     templateHeader = users.header;
     templateBody = users.body;
@@ -26,6 +25,13 @@ async function getTemplate(pageName, items, offset, userAccess) {
     templateContainer = works.conatainer;
     templateHeader = works.header;
     templateBody = works.body;
+  }
+
+  if (pageName === 'comments') {
+    let comments = setComments(items, offset, userAccess, templateContainer, templateHeader, templateBody);
+    templateContainer = comments.conatainer;
+    templateHeader = comments.header;
+    templateBody = comments.body;
   }
   templateContainer.appendChild(templateBody);
   return templateContainer;
@@ -126,6 +132,93 @@ function setUsers(items, offset, userAccess, templateContainer, templateHeader, 
       }
     }
 
+    templateBody.appendChild(tr);
+  }
+  return {
+    'conatainer': templateContainer,
+    'header': templateHeader,
+    'body': templateBody,
+  };
+}
+
+function setComments(items, offset, userAccess, templateContainer, templateHeader, templateBody) {
+  templateContainer = document.createElement('table');
+  templateContainer.classList.add('content__users-table');
+  templateContainer.classList.add('table');
+  templateHeader = `
+  <thead>
+    <tr class="items-header">
+      <th class="id">№</th>
+      <th>Аватар</th>
+      <th>Ім'я</th>
+      <th>Текст</th>
+      <th>Дата створення</th>
+      <th>Назва посту</th>
+      <th>Дії</th>
+    </tr>
+  </thead>
+  `;
+  templateContainer.innerHTML += templateHeader;
+
+  let index = offset + 1;
+  for (const i in items) {
+
+    const element = items[i];
+
+    let tr = document.createElement('tr');
+    let itemID = document.createElement('td');
+    let userImage = document.createElement('td');
+    let userLogin = document.createElement('td');
+    let commentText = document.createElement('td');
+    let createdAt = document.createElement('td');
+    let articleName = document.createElement('td');
+    let buttons = document.createElement('td');
+    let deleteButton = document.createElement('button');
+    let editButton = document.createElement('button');
+    let imageContainer = document.createElement('div');
+
+    let imageItem = document.createElement('img');
+    let image;
+
+    if (element.user_image === 'empty') image = DEFAULT_IMAGE;
+    else image = imageLink + element.user_image;
+
+    tr.classList.add('item');
+    itemID.classList.add('id');
+    imageContainer.classList.add('comment-image');
+    imageItem.src = image;
+    imageContainer.appendChild(imageItem);
+    userImage.appendChild(imageContainer);
+    buttons.classList.add('comment-buttons');
+    buttons.classList.add('table-buttons');
+    deleteButton.classList.add('comment-delete-button');
+    deleteButton.classList.add('table-delete-button');
+    deleteButton.textContent = "Видалити";
+    editButton.classList.add('comment-edit-button');
+    editButton.classList.add('table-edit-button');
+    editButton.textContent = "Редагувати";
+
+    tr.appendChild(itemID);
+    tr.appendChild(userImage);
+    tr.appendChild(userImage);
+    tr.appendChild(userLogin);
+    tr.appendChild(commentText);
+    tr.appendChild(createdAt);
+    tr.appendChild(articleName);
+    tr.appendChild(buttons);
+
+    itemID.textContent = index++;
+    userLogin.textContent = element.login;
+    commentText.textContent = element.text;
+    createdAt.textContent = element.created_at;
+    articleName.textContent = element.name;
+    editButton.id = 'edit-' + element.id;
+    deleteButton.id = 'delete-' + element.id;
+
+    if (element.editable) {
+      buttons.appendChild(deleteButton);
+      buttons.appendChild(editButton);
+    }
     templateBody.appendChild(tr);
   }
   return {

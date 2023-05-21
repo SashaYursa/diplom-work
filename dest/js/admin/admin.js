@@ -218,10 +218,6 @@ async function addEventsCategories(node, link) {
   });
 }
 
-
-
-
-
 settingsItems.forEach(element => {
   element.addEventListener('click', async e => {
     e.preventDefault();

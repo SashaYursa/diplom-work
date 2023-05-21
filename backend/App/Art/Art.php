@@ -130,7 +130,7 @@ class Art
         if (empty($this->db->checkLikeForPortfolio($portfolioID, $userID))) {
             $res = $this->db->insertLikeForPortfolio($portfolioID, $userID);
         } else {
-            $res = $this->db->removeLike($userID, 'likes_for_portfolio');
+            $res = $this->db->removeLike($userID, 'likes_for_portfolio', 'portfolio_id', $portfolioID);
         }
         if ($res['ok']) {
             $likes = $this->db->getCountElementsWithParam('likes_for_portfolio', 'id', 'portfolio_id', $portfolioID);

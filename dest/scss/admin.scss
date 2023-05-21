@@ -104,6 +104,7 @@ padding-left: 20px;
 }
 .content {
   flex: 1 1 auto;
+  overflow: scroll;
 }
 .table{
   margin: 20px 0;
@@ -174,6 +175,20 @@ width: 1%;
   width: 100%;
   object-fit: cover;
 }
+
+.comment-image {
+  overflow: hidden;
+  padding: 10px 0;
+  height: 75px;
+  width: 75px;
+}
+.comment-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .table-buttons button{
   width: 95%;
   display: block;
@@ -393,6 +408,10 @@ width: 1%;
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.comment__input{
+  resize: none;
+  height: 250px;
 }
 
 
@@ -787,8 +806,37 @@ overflow: hidden;
     display: none;
     width: 100%;
   }
-
-
-
 //end edit
+
+@media (max-width: 996px){
+  .container{
+    flex-direction: column;
+  }
+  .sidebar{
+    flex-direction: column;
+    max-width: 100%;
+    min-width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .content__items{
+    display: contents;
+  }
+  .category{
+    flex-direction: column;
+  }
+  .categories__add{
+    width: 100%;
+  }
+  .input__block{
+    flex-direction: column;
+  }
+  .categories__form{
+    margin: 5px;
+  }
+  .categories__list{
+    margin-inline: 5px;
+    width: auto;
+  }
+}
 

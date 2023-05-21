@@ -5,6 +5,9 @@ const articleLink = QUERY_LINK + 'articles';
 const articleImagesLink = QUERY_LINK + 'articles/images/';
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+if (!urlParams.size) {
+  location = '/404/';
+}
 const itemID = urlParams.get('id').replace(/\D/g, "");
 let userID;
 async function getArticle(id) {

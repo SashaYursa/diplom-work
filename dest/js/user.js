@@ -1,4 +1,5 @@
 import { QUERY_LINK } from "./backlink.js";
+import { outPopup } from "./popup.js";
 const link = QUERY_LINK + 'users';
 let userID;
 let user;
@@ -267,7 +268,7 @@ async function addPortfolioItems(items, itemsBody) {
     }
     itemsBody.innerHTML += `
     <div class="portfolio__item">
-        <a href="" class="portfolio__link">
+        <a href="" class="portfolio__link" id="${items[i]['id']}">
           <img id="image-${items[i]['id']}" src="${image}" alt="portfolio-item">
           <div class="item__edit">
             <button onclick="location.href='edit-work/?id=${items[i]['id']}'" class="portfolio__details portfolio__edit" id="edit-${items[i]['id']}">
@@ -355,6 +356,17 @@ async function setPortfolio() {
 
   const deleteButtons = document.querySelectorAll('.portfolio__delete');
   const editButtons = document.querySelectorAll('.portfolio__edit');
+  const links = document.querySelectorAll('.portfolio__link');
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      if (link.classList.contains('add')) {
+        return;
+      }
+      e.preventDefault();
+      const popup = document.querySelector('.popup');
+      outPopup(link.id, popup, userID);
+    });
+  });
   deleteButtons.forEach(button => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -400,7 +412,7 @@ async function setArticles() {
         <img class="article-img" src="${logo}" alt="${logo}">
       </div>
       <div class="article__content">
-        <a class="article__description">
+        <a class="article__description" href="../article/?id=${article.id}">
           <h2 class="article__description-header">
           ${name}
           </h2>

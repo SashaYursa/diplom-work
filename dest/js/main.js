@@ -1,31 +1,73 @@
 import { QUERY_LINK, DAYS, MONTHS } from "./backlink.js";
+import { outPopup } from "./popup.js";
+import { getUser } from "./checkUser.js";
+const userToken = sessionStorage.getItem('user_token') || localStorage.getItem('user_token') || 0;
+
 const mainLink = QUERY_LINK + 'main';
 const portfolioLogoLink = QUERY_LINK + 'portfolio/logo/';
+let user;
+if (userToken !== 0) {
+  user = await getUser(userToken);
+}
 main();
+
 async function outPage() {
+  const popup = document.querySelector('.popup');
   let works = await getMostPopularWork(mainLink);
-  if (!works) {
-    return;
-  }
-  let mostPopularWork = works.mostPopular;
-  let popularWorks = works.popularWorks;
   const header = document.querySelector('.content__header');
-  mostPopularWork.name.length > 120
-    ? header.textContent = mostPopularWork.name.slice(0, 120) + '...'
-    : header.textContent = mostPopularWork.name;
   const desc = document.querySelector('.content__description');
-  mostPopularWork.description.length > 240
-    ? desc.textContent = mostPopularWork.description.slice(0, 240) + '...'
-    : desc.textContent = mostPopularWork.description;
-  // let date = mostPopularWork.created_at.split(' ');
-  // date = date[0].replace(/-/g, '.');
   const dateContent = document.querySelector('.content__date');
-  setDate(mostPopularWork.created_at, dateContent);
   const backgroundImage = document.querySelector('.background-image');
-  backgroundImage.src = portfolioLogoLink + mostPopularWork.portfolio_logo;
-  addPopularWorks(popularWorks);
+  if (!works) {
+    header.textContent = '';
+    desc.textContent = '';
+    backgroundImage.src = 'dest/images/background-image.png';
+    dateContent.textContent = '';
+  }
+  else {
+    let mostPopularWork = works.mostPopular;
+    let popularWorks = works.popularWorks;
+    mostPopularWork.name.length > 120
+      ? header.textContent = mostPopularWork.name.slice(0, 120) + '...'
+      : header.textContent = mostPopularWork.name;
+    mostPopularWork.description.length > 240
+      ? desc.textContent = mostPopularWork.description.slice(0, 240) + '...'
+      : desc.textContent = mostPopularWork.description;
+    setDate(mostPopularWork.created_at, dateContent);
+    backgroundImage.src = portfolioLogoLink + mostPopularWork.portfolio_logo;
+    document.querySelector('.header__content').addEventListener('click', e => {
+      e.preventDefault();
+      user?.id ? outPopup(mostPopularWork.id, popup, user.id) : outPopup(mostPopularWork.id, popup, undefined);
+    });
+    if (popularWorks) {
+      addPopularWorks(popularWorks);
+      addPopularWorksEvents(popup);
+    }
+  }
   let articles = await getMostPopularArticles(QUERY_LINK + 'articles');
   addPopularArticles(articles);
+  let categories = await getCategories(QUERY_LINK + 'categories');
+  const categoriesContainer = document.querySelector('.categories__container');
+  categoriesContainer.innerHTML = '';
+  categories.forEach(cat => {
+    let categoryLink = document.createElement('a');
+    categoryLink.classList.add('categories__item');
+    categoryLink.textContent = cat.name + '-' + cat.posts.count;
+    categoryLink.href = '/articles/?cat=' + cat.id;
+    categoriesContainer.appendChild(categoryLink);
+  });
+}
+
+function addPopularWorksEvents(popup) {
+  let popularWorkLinks = document.querySelectorAll('.topic__link');
+  popularWorkLinks.forEach(popularWorkLink => {
+    popularWorkLink.addEventListener('click', e => {
+      e.preventDefault();
+
+      const id = popularWorkLink.querySelector('.topic__header').id;
+      user?.id ? outPopup(id, popup, user.id) : outPopup(id, popup, undefined);
+    });
+  });
 }
 
 function setDate(timestamp, field) {
@@ -52,10 +94,8 @@ function addPopularWorks(popularWorks) {
       <a class="topic__link" href="#">
         <h3 class="topic__header"></h3>
       </a>
-      <a class="topic__link desc-link" href="#">
         <p class="topic__description">
         </p>
-      </a>
       <div class="topic__attributes">
         <p class="topic__date">10.02.2022</p>
         <div class="topic__likes">
@@ -75,14 +115,13 @@ function addPopularWorks(popularWorks) {
     workItem.innerHTML += workTemplate;
     let workHeader = workItem.querySelector('.topic__header');
     workHeader.textContent = item.name;
+    workHeader.id = item.id;
     let workDesc = workItem.querySelector('.topic__description');
     workDesc.textContent = item.description;
     let workImage = workItem.querySelector('.topic__image');
     workImage.src = portfolioLogoLink + item.portfolio_logo;
-    let date = item.created_at.split(' ');
-    date = date[0].replace(/-/g, '.');
     let workDate = workItem.querySelector('.topic__date');
-    workDate.textContent = date;
+    setDate(item.created_at, workDate);
     let workLikes = workItem.querySelector('.topic__like-count');
     workLikes.textContent = item.likes;
 
@@ -99,7 +138,13 @@ function addPopularArticles(articles) {
     <img class="articleImage" src="" alt="article" />
   </div>
   <div class="card-body">
-    <span class="tag tag-teal"></span>
+    <div class="card-info">
+    <img class="card-likes" src="dest/images/like.png" alt"like-img"/>
+    <span class="article-likes"></span>
+    <img class="card-views" src="dest/images/eye.png" alt"views-img"/>
+    <span class="article-views"></span>
+    <span class="tag"></span>
+    </div>
     <h4 class="articleHeader">
     </h4>
     <p class="articleDesc">
@@ -115,28 +160,51 @@ function addPopularArticles(articles) {
     </div>
   </div>
   `;
-
   articles.response.forEach(article => {
+    const rndInt = Math.floor(Math.random() * 3) + 1;
     let card = document.createElement('div');
     card.classList.add('card');
+    card.id = article.id;
     card.innerHTML = template;
     let articleImage = card.querySelector('.articleImage');
     let tag = card.querySelector('.tag');
+    switch (rndInt) {
+      case 1:
+        tag.classList.add('tag-teal');
+        break;
+      case 2:
+        tag.classList.add('tag-pink');
+        break;
+      case 3:
+        tag.classList.add('tag-purple');
+        break;
+    }
     let articleHeader = card.querySelector('.articleHeader');
     let articleDesc = card.querySelector('.articleDesc');
     let userImage = card.querySelector('.userImage');
     let userName = card.querySelector('.userName');
     let createdAt = card.querySelector('.createdAt');
+    let views = card.querySelector('.article-views');
+    let likes = card.querySelector('.article-likes');
     tag.textContent = article.category.name;
     articleHeader.textContent = article.name;
     articleDesc.textContent = article.description;
-    userImage.src = QUERY_LINK + article.user_image;
-    userName = article.login;
+    likes.textContent = article.likes_count;
+    views.textContent = article.views;
+    article.user_image === 'empty'
+      ? userImage.src = 'dest/images/default-background.webp'
+      : userImage.src = QUERY_LINK + article.user_image;
+    userName.textContent = article.login;
     setDate(article.created_at, createdAt);
-    articleImage.src = QUERY_LINK + article.logo;
+    article.logo === 'empty'
+      ? articleImage.src = 'dest/images/default-background.webp'
+      : articleImage.src = QUERY_LINK + article.logo;
     articleContainer.appendChild(card);
+    card.querySelector('.card-body').addEventListener('click', e => {
+      e.preventDefault();
+      location = './article/?id=' + card.id;
+    });
   });
-  console.log(articles);
 }
 
 async function getMostPopularWork(link) {
@@ -157,6 +225,17 @@ async function getMostPopularArticles(link) {
     headers: {
       'status': 'get-most-popular',
       'Content-Security-Policy': 'upgrade-insecure-requests',
+    }
+  });
+  response = await response.json();
+  return response;
+}
+
+async function getCategories(link) {
+  let response = await fetch(link, {
+    method: 'GET',
+    headers: {
+      'status': 'get-all-categories'
     }
   });
   response = await response.json();

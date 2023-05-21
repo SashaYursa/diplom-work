@@ -41,6 +41,15 @@ class Categories
         return $this->db->insertCategory($name);
     }
 
+    public function checkCategory($id)
+    {
+        $res = $this->db->getFromTable($this->tableName, 'id', $id);
+        if (isset($res['error'])) {
+            return false;
+        }
+        return true;
+    }
+
     public function removeCategory($id)
     {
         $this->db->deleteFromTable($this->tableName, 'id', $id);

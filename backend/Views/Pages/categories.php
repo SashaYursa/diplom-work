@@ -21,6 +21,10 @@ if ($method === 'GET') {
             echo json_encode($res);
         }
     }
+    if (isset($_GET['catID'])) {
+        $res = $categories->checkCategory($_GET['catID']);
+        echo json_encode($res);
+    }
 }
 if ($method === 'POST') {
     if (isset($_POST['name'])) {

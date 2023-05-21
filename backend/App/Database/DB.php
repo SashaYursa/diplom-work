@@ -95,6 +95,16 @@ class DB
         return $result;
     }
 
+    public function getAllCommentsWithLimit($table, $limit = 10, $offset = 0): array
+    {
+        $sql = "SELECT coments_for_articles.*, users.login, users.is_admin, users.user_image, articles.name 
+        FROM `${table}` 
+        LEFT JOIN users ON coments_for_articles.author_id = users.id 
+        LEFT JOIN articles ON articles.id = coments_for_articles.article_id LIMIT ${limit} OFFSET ${offset} ";
+        $result = $this->query($sql);
+        return $result;
+    }
+
     public function addView($tableName, $id, $views)
     {
         $sql = "UPDATE `${tableName}` SET `views` = '${views}' WHERE `${tableName}`.`id` = ${id}";
@@ -138,6 +148,18 @@ class DB
     public function getFieldFromTable($table, $field, $param, $value): array
     {
         $sql = "SELECT ${field} FROM `${table}` WHERE `${table}`.`${param}` = '${value}' ORDER BY ${field} DESC";
+        $result = $this->query($sql);
+        if (!empty($result)) {
+            return $result;
+        } else {
+            return ['error' => 'Записів не знайдено'];
+        }
+    }
+
+    public function getFieldFromTableWithCategory($table, $field, $param, $value, $categoryParam, $categoryVal): array
+    {
+        $sql = "SELECT ${field} FROM `${table}` WHERE `${table}`.`${param}` = '${value}' 
+                AND `${table}`.`${categoryParam}` = '${categoryVal}' ORDER BY ${field} DESC";
         $result = $this->query($sql);
         if (!empty($result)) {
             return $result;
@@ -221,7 +243,9 @@ class DB
 //        }
         return $result;
     }
-    public function getArtWithImages($artID){
+
+    public function getArtWithImages($artID)
+    {
         $sql = "";
     }
 
@@ -302,9 +326,9 @@ class DB
         return ['ok' => true];
     }
 
-    public function removeLike($userID, $tableName)
+    public function removeLike($userID, $tableName, $param, $val)
     {
-        $sql = "DELETE FROM `${tableName}` WHERE `${tableName}`.`user_id` = ${userID}";
+        $sql = "DELETE FROM `${tableName}` WHERE `${tableName}`.`user_id` = ${userID} AND `${tableName}`.`${param}` = ${val}";
         $this->execute($sql);
         return ['ok' => true];
     }

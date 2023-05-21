@@ -6,6 +6,7 @@ const articleImagesLink = QUERY_LINK + 'articles/images/';
 let { refresh } = await import('./loadItems.js');
 let fileList = [];
 async function addItemsHandler(userTemplate, userAccess) {
+  console.log('12312312');
   const deleteButtons = userTemplate.querySelectorAll('.article-delete-button');
   const editeButtons = userTemplate.querySelectorAll('.article-edit-button');
   const statusButtons = userTemplate.querySelectorAll('.status-button');

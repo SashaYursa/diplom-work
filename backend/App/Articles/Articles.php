@@ -148,12 +148,33 @@ class Articles
         if (empty($this->db->checkLikeForArticle($articleID, $userID))) {
             $res = $this->db->insertLikeForArticle($articleID, $userID);
         } else {
-            $res = $this->db->removeLike($userID, 'likes_for_articles');
+            $res = $this->db->removeLike($userID, 'likes_for_articles', 'article_id', $articleID);
         }
         if ($res['ok']) {
             $likes = $this->db->getCountElementsWithParam('likes_for_articles', 'id', 'article_id', $articleID);
             return ['likes' => $likes[0]['count']];
         }
+    }
+
+    public function getVisiblePages($categoryID)
+    {
+        if ($categoryID == 0) {
+            return $this->db->getFieldFromTable($this->tableName, 'id', 'hide', 0);
+        }
+        return $this->db->getFieldFromTableWithCategory(
+            $this->tableName,
+            'id',
+            'hide',
+            0,
+            'category_id',
+            $categoryID,
+        );
+    }
+
+    public function getPagesForCategory($categoryID)
+    {
+        $category = $this->db->getFromTable('categories', 'id', $categoryID);
+        //$this->db->getCountElementsWithParam()
     }
 
     private function addView($articleID, $countView)
