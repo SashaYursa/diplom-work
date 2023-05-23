@@ -464,17 +464,17 @@ function setArticles(items, offset, userAccess, templateContainer, templateHeade
     editButton.id = 'edit-' + element.id;
     deleteButton.id = 'delete-' + element.id;
 
-    if (element.hide === 0) {
+    if (element.hide == 0) {
       statusButton.textContent = 'Показується';
       statusButton.classList.add('visible');
       statusButton.id = element.id + '-visible';
     }
-    if (element.hide === 1) {
+    if (element.hide == 1) {
       statusButton.textContent = 'Приховано';
       statusButton.classList.add('hide');
       statusButton.id = element.id + '-hide';
     }
-    if (element.hide === 2) {
+    if (element.hide == 2) {
       statusButton.textContent = 'В очікуванні';
       statusButton.classList.add('in-proccess');
       statusButton.id = element.id + '-process';

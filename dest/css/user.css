@@ -122,11 +122,13 @@ body {
   border: 1px solid #ffffff;
   border-radius: 12px;
   transition: all ease 0.3s;
+  color: #fff;
 }
 
 .menu__search-input:focus {
   background-color: #dddddd;
   width: 20vw;
+  color: #000;
   max-width: 20vw;
 }
 
@@ -827,6 +829,7 @@ main {
   min-height: 65%;
   overflow: hidden;
   margin-bottom: 1px;
+  line-height: 0.94;
 }
 
 .article__stats {

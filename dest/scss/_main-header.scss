@@ -109,12 +109,14 @@
   background: #00000000;
   border: 1px solid #ffffff;
   border-radius: 12px;
+  color: #fff;
   transition: all ease .3s;
 }
 
 .menu__search-input:focus {
   width: 20vw;
   max-width: 20vw;
+  color: #000;
   background-color: #ffffff;
 }
 

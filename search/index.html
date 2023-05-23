@@ -39,19 +39,32 @@
           <h3 class="search__header">Пошук</h3>
           <form class="search__form">
             <input class="search__input" type="text">
-            <input type="submit" class="search__submit-button" value="Знайти">
+            <input class="search__submit-button" type="submit" value="Знайти">
           </form>
         </div>
         <div class="error-field">
+        </div>
+        <div class="search-filter">
+          <button class="search-filter__item active" id="users">
+            Користувачі
+          </button>
+          <button class="search-filter__item active" id="works">
+            Роботи
+          </button>
+          <button class="search-filter__item active" id="articles">
+            Пости
+          </button>
 
         </div>
         <div class="response">
-          <h3 class="response__title user-title"></h3>
+          <h3 class="response__title users-title"></h3>
           <div class="users__items response__items">
           </div>
-          <h3 class="response__title work-title"></h3>
+          <h3 class="response__title works-title"></h3>
           <div class="works__items response__items">
-
+          </div>
+          <h3 class="response__title articles-title"></h3>
+          <div class="articles__items response__items">
           </div>
         </div>
       </div>

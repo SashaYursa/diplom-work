@@ -296,7 +296,7 @@ class DB
 
     public function searchInTable($table, $param, $search)
     {
-        $sql = "SELECT * FROM `${table}` WHERE `${table}`.`${param}` LIKE '${search}%'";
+        $sql = "SELECT * FROM `${table}` WHERE `${table}`.`${param}` LIKE '%${search}%'";
         return $this->query($sql);
     }
 

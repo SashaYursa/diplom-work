@@ -214,6 +214,26 @@ class Articles
         return $articles;
     }
 
+    public function search($val)
+    {
+        $res = [];
+        $response = $this->db->searchInTable($this->tableName, 'name', $val);
+        foreach ($response as $key => $val) {
+            $res[$key]['id'] = $val['id'];
+            $res[$key]['name'] = $val['name'];
+            $res[$key]['description'] = $val['description'];
+            $res[$key]['logo'] = $val['logo'];
+            $res[$key]['likes'] = $this->db->getCountElementsWithParam(
+                'likes_for_articles',
+                'id',
+                'id',
+                $res[$key]['id']
+            )[0]['count'];
+            $res[$key]['views'] = $val['views'];
+        }
+        return $res;
+    }
+
     public
     function updateStatus(
         $id,

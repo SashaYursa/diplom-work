@@ -7,12 +7,50 @@ const queryString = window.location.search;
 const errorField = document.querySelector('.error-field');
 const params = new URLSearchParams(queryString);
 const searchParam = params.get('q');
+let search = {
+  works: true,
+  users: true,
+  articles: true,
+};
 if (searchParam !== null) {
   run();
 }
 
+
+
+let filterButtons = document.querySelectorAll('.search-filter__item');
+filterButtons.forEach(button => {
+  button.addEventListener('click', e => {
+    e.preventDefault();
+    let param = button.id;
+    const title = document.querySelector('.' + button.id + '-title');
+    const body = document.querySelector('.' + button.id + '__items');
+    if (button.classList.contains('active')) {
+      button.classList.remove('active');
+      search[param] = false;
+      title.classList.add('hide');
+      body.classList.add('hide');
+      for (const i in search) {
+        if (search[i]) {
+          return;
+        }
+      }
+      title.classList.remove('hide');
+      body.classList.remove('hide');
+      button.classList.add('active');
+      search[param] = true;
+    } else {
+      search[param] = true;
+      button.classList.add('active');
+      title.classList.remove('hide');
+      body.classList.remove('hide');
+    }
+  });
+});
+
 async function run() {
-  await getResponse(searchParam);
+  const response = await getResponse(searchParam, search);
+  outElements(response);
 }
 
 searchSubmit.addEventListener('click', async e => {
@@ -21,51 +59,56 @@ searchSubmit.addEventListener('click', async e => {
   if (searchInput.value.length === 0) {
     return outError('Будь-ласка введіть дані для пошуку', errorField);
   } else {
-    await getResponse(searchInput.value);
+    const response = await getResponse(searchInput.value, search);
+    outElements(response);
   }
 
 });
-async function getResponse(value) {
-  let newLink = searchLink + '?value=' + value;
+async function getResponse(value, param) {
+  let newLink = searchLink + '?value=' + value + '&params=';
+  for (const i in param) {
+    if (param[i] == true) {
+      newLink += i + '+';
+    }
+  }
+  newLink = newLink.slice(0, -1);
   let response = await fetch(newLink, {
     method: 'GET',
   });
-  response = await response.json();
-  if (response.result) {
-    outElements(response);
-    errorField.innerHTML = '';
-  }
-  else {
-    return outError('Записів не знайдено', errorField);
-  }
+  return await response.json();
+  // errorField.innerHTML = '';
+  // outElements(response);
+  // else {
+  //   return outError('Записів не знайдено', errorField);
+  // }
 }
 
 function outElements(items) {
   const users = items.users;
   const works = items.works;
-  const usersTitle = document.querySelector('.user-title');
-  const worksTitle = document.querySelector('.work-title');
-
-  if (Object.keys(users).length > 0) {
-    usersTitle.innerHTML = 'Користувачі';
+  const articles = items.articles;
+  if (users != undefined) {
     outUsers(users);
-
   }
-  else {
-    usersTitle.innerHTML = 'Користувачів не знайдено';
-  }
-  if (Object.keys(works).length > 0) {
+  if (works != undefined) {
     outWorks(works);
-    worksTitle.innerHTML = 'Роботи';
-  } else {
-    worksTitle.innerHTML = 'Робіт не знайдено';
+  }
+  if (articles != undefined) {
+    outArticles(articles);
   }
 }
 
 function outUsers(users) {
-  const userImageLink = QUERY_LINK + 'UserImages/';
+  const usersTitle = document.querySelector('.users-title');
   const usersItems = document.querySelector('.users__items');
   usersItems.innerHTML = '';
+  if (users.length < 1) {
+    usersTitle.innerHTML = 'Користувачів не знайдено';
+    return
+  }
+  usersTitle.innerHTML = 'Користувачі';
+  const userImageLink = QUERY_LINK + 'UserImages/';
+
   for (const key in users) {
     const element = users[key];
     let userItem = document.createElement('div');
@@ -83,7 +126,6 @@ function outUsers(users) {
     userValues.appendChild(userName);
     userValues.appendChild(userEmail);
 
-
     userItem.id = 'user-' + element.id;
     if (element.user_image !== 'empty') {
       image.src = userImageLink + element.user_image;
@@ -100,9 +142,15 @@ function outUsers(users) {
   }
 }
 function outWorks(works) {
-  const workImageLink = QUERY_LINK + 'portfolio/logo/';
   const worksItems = document.querySelector('.works__items');
   worksItems.innerHTML = '';
+  const worksTitle = document.querySelector('.works-title');
+  if (works.length < 1) {
+    worksTitle.innerHTML = 'Робіт не знайдено';
+    return
+  }
+  worksTitle.innerHTML = 'Роботи';
+  const workImageLink = QUERY_LINK + 'portfolio/logo/';
   for (const key in works) {
     const element = works[key];
     let workItem = document.createElement('div');
@@ -120,7 +168,6 @@ function outWorks(works) {
     workValues.appendChild(workName);
     workValues.appendChild(workDesc);
 
-
     workItem.id = 'user-' + element.id;
     if (element.portfolio_logo !== 'empty') {
       image.src = workImageLink + element.portfolio_logo;
@@ -135,7 +182,65 @@ function outWorks(works) {
   }
 }
 
+function outArticles(articles) {
+  const articlesTitle = document.querySelector('.articles-title');
+  const articleItems = document.querySelector('.articles__items');
+  articleItems.innerHTML = '';
+  if (articles.length < 1) {
+    articlesTitle.innerHTML = 'Постів не знайдено';
+    return;
+  }
+  articlesTitle.innerHTML = 'Пости';
+  const template = `
+    <div class="article__image">
+      <img class="article-img" src="../dest/images/default-background.webp" alt="article image">
+    </div>
+    <a class="article__info">
+      <span class="article__name"></span>
+      <span class="article__description"></span>
+      <div class="article__stats">
+        <div class="article__likes">
+          <img class="like-img" src="../dest/images/like.png" alt="likes">
+          <span class="article__likes-count"></span>
+        </div>
+        <div class="article__views">
+          <img class="views-img" src="../dest/images/eye.png" alt="views">
+          <span class="article__views-count"></span>
+        </div>
+      </div>
+    </a>
+  `;
+  const articleImageLink = QUERY_LINK + 'articles/images/';
+
+  for (const key in articles) {
+    const element = articles[key];
+    let articleBody = document.createElement('div');
+    articleBody.classList.add('article__item');
+    articleBody.innerHTML = template;
+    articleBody.id = element.id;
+    if (element.logo !== 'empty') {
+      articleBody.querySelector('.article-img').src = articleImageLink + element.logo;
+    }
+    element.name.length > 80
+      ? articleBody.querySelector('.article__name').textContent = element.name.slice(0, 80) + '...'
+      : articleBody.querySelector('.article__name').textContent = element.name;
+    element.description.length > 240
+      ? articleBody.querySelector('.article__description').textContent = element.description.slice(0, 240) + '...'
+      : articleBody.querySelector('.article__description').textContent = element.description;
+    articleBody.querySelector('.article__likes-count').textContent = element.likes;
+    articleBody.querySelector('.article__views-count').textContent = element.views;
+    articleBody.querySelector('.article__info').href = '../article?id=' + element.id;
+    articleItems.appendChild(articleBody);
+  }
+}
+
+
 function outError(error, errorField) {
+  document.querySelector('.user-title').innerHTML = '';
+  document.querySelector('.work-title').innerHTML = '';
+  document.querySelector('.users__items').innerHTML = '';
+  document.querySelector('.works__items').innerHTML = '';
+
   let errorItem = document.createElement('span');
   errorItem.textContent = error;
   errorField.innerHTML = '';

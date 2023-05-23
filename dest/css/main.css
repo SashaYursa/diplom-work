@@ -121,12 +121,14 @@ body {
   background: rgba(0, 0, 0, 0);
   border: 1px solid #ffffff;
   border-radius: 12px;
+  color: #fff;
   transition: all ease 0.3s;
 }
 
 .menu__search-input:focus {
   width: 20vw;
   max-width: 20vw;
+  color: #000;
   background-color: #ffffff;
 }
 

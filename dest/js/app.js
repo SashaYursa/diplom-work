@@ -17,7 +17,7 @@ setTimeout(() => {
     e.stopPropagation();
     const searchField = document.querySelector('.menu__search-input');
     if (searchField.value.length > 0) {
-      location = location + '/search/?q=' + searchField.value;
+      location = '../search/?q=' + searchField.value;
     }
   });
 }, 1000);
