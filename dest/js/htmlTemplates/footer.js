@@ -1,3 +1,4 @@
+import { QUERY_LINK } from '../backlink.js';
 export const footer = `
 <div class="container">
   <div class="footer__items">
@@ -14,19 +15,19 @@ export const footer = `
       <h4 class="footer__socials-header">Посилання на автора</h4>
       <ul class="footer__social-items">
         <li class="footer__social-item">
-          <a class="footer__social-link social-link" href="https://www.facebook.com/groups/565010661504197/">
+          <a class="footer__social-link social-link" id="facebook" href="#">
             Facebook
           </a>
           <img class="social__image" src="../dest/images/facebook-light.png" alt="social">
         </li>
         <li class="footer__social-item">
-          <a class="footer__social-link social-link" href="#">
+          <a class="footer__social-link social-link" id="instagram" href="#">
             Instagram
           </a>
           <img class="social__image" src="../dest/images/insta-light.png" alt="social">
         </li>
         <li class="footer__social-item">
-          <a class="footer__social-link social-link" href="#">
+          <a class="footer__social-link social-link" id="twitter" href="#">
             Twitter
           </a>
           <img class="social__image" src="../dest/images/twitter-light.png" alt="social">
@@ -39,4 +40,21 @@ export const footer = `
   <h3 class="footer__copy-text">2023 Yursa</h3>
 </div>
 `
+
+async function setLinks() {
+  await fetch(QUERY_LINK + 'links', {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(links => {
+      links.forEach(link => {
+        document.querySelectorAll('.footer__social-link').forEach(footerLink => {
+          if (footerLink.id === link.name) {
+            footerLink.href = link.link;
+          };
+        });
+      })
+    });
+}
+export default setLinks();
 

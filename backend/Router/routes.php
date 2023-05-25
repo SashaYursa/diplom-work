@@ -16,5 +16,6 @@ Router::page('/main', 'main');
 Router::page('/add-article', 'add-article');
 Router::page('/articleComment', 'articleComment');
 Router::page('/categories', 'categories');
+Router::page('/links', 'links');
 
 Router::enable();

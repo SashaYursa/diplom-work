@@ -456,4 +456,12 @@ class DB
         return true;
     }
 
+    public function updateLink($name, $link)
+    {
+        $sql = "UPDATE `links` SET `link` = :link WHERE `links`.`name` = :name";
+        $sth = $this->link->prepare($sql);
+        $sth->execute([":link" => $link, ":name" => $name]);
+        return true;
+    }
+
 }

@@ -9,7 +9,7 @@ async function loadItems(pageName, limit, offset, userAccess) {
   limitCount = limit;
   offsetCount = offset;
   access = userAccess;
-  let link = loadLink + pageName + '?userAccess=' + userAccess;
+  const link = loadLink + pageName + '?userAccess=' + userAccess;
 
   let response = await fetch(link, {
     method: 'GET',

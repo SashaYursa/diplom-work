@@ -1,4 +1,7 @@
 import { QUERY_LINK } from "./backlink.js";
+import { outPopup } from "./popup.js";
+import { getUser } from "./checkUser.js";
+const userToken = sessionStorage.getItem('user_token') || localStorage.getItem('user_token') || 0;
 
 const searchSubmit = document.querySelector('.search__submit-button');
 const searchInput = document.querySelector('.search__input');
@@ -12,6 +15,10 @@ let search = {
   users: true,
   articles: true,
 };
+let user;
+if (userToken !== 0) {
+  user = await getUser(userToken);
+}
 if (searchParam !== null) {
   run();
 }
@@ -168,7 +175,7 @@ function outWorks(works) {
     workValues.appendChild(workName);
     workValues.appendChild(workDesc);
 
-    workItem.id = 'user-' + element.id;
+    workItem.id = element.id;
     if (element.portfolio_logo !== 'empty') {
       image.src = workImageLink + element.portfolio_logo;
     } else {
@@ -180,6 +187,14 @@ function outWorks(works) {
     workItem.appendChild(workValues);
     worksItems.appendChild(workItem);
   }
+  worksItems.querySelectorAll('.work__item')
+    .forEach(workItem => {
+      workItem.addEventListener('click', e => {
+        e.preventDefault();
+        const popup = document.querySelector('.popup');
+        user?.id ? outPopup(workItem.id, popup, user.id) : outPopup(workItem.id, popup, undefined);
+      });
+    });
 }
 
 function outArticles(articles) {
@@ -200,7 +215,7 @@ function outArticles(articles) {
       <span class="article__description"></span>
       <div class="article__stats">
         <div class="article__likes">
-          <img class="like-img" src="../dest/images/like.png" alt="likes">
+          <img class="article-like-img" src="../dest/images/like.png" alt="likes">
           <span class="article__likes-count"></span>
         </div>
         <div class="article__views">

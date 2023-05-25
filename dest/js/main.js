@@ -70,6 +70,27 @@ function addPopularWorksEvents(popup) {
   });
 }
 
+async function setLinks() {
+  await fetch(QUERY_LINK + 'links', {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(links => {
+      links.forEach(link => {
+        document.querySelectorAll('.header__social-link').forEach(headerLink => {
+          if (headerLink.id === link.name) {
+            headerLink.href = link.link;
+          };
+        });
+        document.querySelectorAll('.footer__social-link').forEach(footerLink => {
+          if (footerLink.id === link.name) {
+            footerLink.href = link.link;
+          };
+        });
+      })
+    });
+}
+
 function setDate(timestamp, field) {
   const date = new Date(timestamp);
   const dateNow = new Date();
@@ -252,6 +273,7 @@ async function main() {
   load.src = 'dest/images/loading.png';
   header.parentElement.appendChild(loadContainer)
   await outPage();
+  await setLinks();
   header.parentElement.removeChild(document.querySelector('.load__container'));
   header.style.opacity = 1;
 }

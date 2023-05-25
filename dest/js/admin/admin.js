@@ -84,6 +84,106 @@ categoriesButton.addEventListener('click', async e => {
   await updateCategories(categoriesLink);
 });
 
+const linksTemplate = `
+<div class="links">
+<h1 class="links__header">Посилання на сторінці</h1>
+<div class="links__items">
+  <ul>
+    <li class="link__facebook link__item">
+      <div class="link__image">
+        <img src="../dest/images/facebook.png" alt="facebook">
+      </div>
+      <div class="link__content">
+        <input class="link__input" id="facebook" type="text">
+      </div>
+      <div class="link__handler">
+        <button class="link__edit">Змінити</button>
+        <button class="link__save hide">Зберегти</button>
+      </div>
+    </li>
+    <li class="link__instagram link__item">
+      <div class="link__image">
+        <img src="../dest/images/instagram.png" alt="instagram">
+      </div>
+      <div class="link__content">
+        <input class="link__input" id="instagram" type="text">
+      </div>
+      <div class="link__handler">
+        <button class="link__edit">Змінити</button>
+        <button class="link__save hide">Зберегти</button>
+      </div>
+    </li>
+    <li class="link__twitter link__item">
+      <div class="link__image">
+        <img src="../dest/images/twitter.png" alt="twitter">
+      </div>
+      <div class="link__content">
+        <input class="link__input" id="twitter" type="text">
+      </div>
+      <div class="link__handler">
+        <button class="link__edit">Змінити</button>
+        <button class="link__save hide">Зберегти</button>
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+`;
+const linksButton = document.querySelector('#links');
+linksButton.addEventListener('click', async e => {
+  e.preventDefault();
+  if (linksButton.classList.contains('active')) {
+    return;
+  }
+  categoriesButton.classList.add('active');
+  settingsItems.forEach(item => {
+    item.classList.remove('active');
+  });
+  document.querySelector('.content__items').innerHTML = linksTemplate;
+  document.querySelector('.pagination').innerHTML = '';
+  const linksLink = QUERY_LINK + 'links';
+  let links = await fetch(linksLink, {
+    method: 'GET'
+  });
+  links = await links.json();
+  links.forEach(link => {
+    document.getElementById(link.name).value = link.link;
+  });
+  document.querySelectorAll('.link__edit').forEach(linkButton => {
+    linkButton.addEventListener('click', e => {
+      e.preventDefault();
+      linkButton.parentElement.querySelector('.link__save').classList.remove('hide');
+      linkButton.parentElement.parentElement.querySelector('.link__input').classList.add('active');
+      linkButton.classList.add('hide');
+    });
+  });
+  document.querySelectorAll('.link__save').forEach(saveButton => {
+    saveButton.addEventListener('click', async e => {
+      e.preventDefault();
+      const linkInput = saveButton.parentElement.parentElement.querySelector('.link__input');
+      let newLink = linkInput.value;
+      if (newLink.length == 0) {
+        linkInput.placeholder = 'Помилка';
+        return;
+      }
+      const data = {
+        link: newLink,
+        name: linkInput.id,
+      }
+      let response = await fetch(QUERY_LINK + 'links', {
+        method: 'PATCH',
+        body: JSON.stringify(data)
+      });
+      response = await response.json();
+      if (response) {
+        saveButton.classList.add('hide');
+        saveButton.parentElement.querySelector('.link__edit').classList.remove('hide');
+        linkInput.classList.remove('active');
+      }
+    })
+  });
+});
+
 async function updateCategories(categoriesLink) {
   const categories = await getCategories(categoriesLink);
   const categoriesNode = await setCategories(categories);

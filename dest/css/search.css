@@ -548,7 +548,7 @@ main {
   flex-direction: row-reverse;
 }
 
-.like-img {
+.article-like-img {
   width: 30px;
   height: 30px;
   object-fit: cover;
